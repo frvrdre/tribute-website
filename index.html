@@ -14,31 +14,41 @@
   </head>
 
   <body>
-    <div class="ed-img">
+
     <header class="site-header">
       <p class="site-title">† REMEMBERING PIE & TIGER</p>
       <nav class="site-nav">
-        <a href="#Home">Home</a>
-        <a href="#Tributes">Tributes</a>
-        <a href="#Gallery">Gallery</a>
+        <a href="#hero">Home</a>
+        <a href="#tribute">Tributes</a>
+        <a href="#contact">Contact</a>
       </nav>
     </header>
 
-    <section class="hero">
-    
-      <h2 class="hero-heading-t">In Loving Memory Of</h2>
-      <h1 class="hero-heading">Edley Sylvester Gibbons</h1>
-      <h3 class="hero-heading-b">aka Pie & Tiger</h3>
-      <p class="hero-para">
-        SUNRISE 2ND DECEMBER 1932 - SUNSET 18TH AUGUST 2025 A loving father, grandfather and man of faith.
-        Though you are no longer here with us, your love, strength and memories live on through the family 
-        you built and the lives you touched. Forever loved. Forever remembered. Until we meet again.
-      </p>
-      <button id="tribute-btn" class="tribute-btn">LEAVE A TRIBUTE</button>
-    </section>
+    <div class="ed-img">
+
+      <section id="hero" class="hero">
+        <h2 class="hero-heading-t">In Loving Memory Of</h2>
+        <h1 class="hero-heading">Edley Sylvester Gibbons</h1>
+        <h3 class="hero-heading-b">Sunrise 2nd December 1932 - Sunset 18th August 2025</h3>
+
+        <p class="hero-para">
+         <span class="hero-dates"></span> A loving father, grandfather and man of faith.
+          Though you are no longer here with us, your love, strength and memories live on through the family 
+          you built and the lives you touched. Forever loved. Forever remembered. Until we meet again.
+        </p>
+
+        <button id="tribute-btn" class="tribute-btn">
+          LEAVE A TRIBUTE
+        </button>
+      </section>
+
     </div>
+
+
+  </body>
+</html>
     <main>
-      <section class="tribute">
+      <section id="tribute" class="tribute">
         <h2 class="love-heading">TRIBUTES</h2>
         <div class="tb-cards-container">    
     <article class="tribute-card" aria-label="Tribute to Edley Sylvester Gibbons">
@@ -118,7 +128,7 @@
 
             <li>
               <img
-                src="assets/linkedin.svg"
+                src="assets/images/linkedin.svg"
                 alt="LinkedIn profile"
               />
 
@@ -135,7 +145,7 @@
 
             <li>
               <img
-                src="assets/discord.svg"
+                src="assets/images/discord.svg"
                 alt="Discord username"
               />
 
@@ -152,7 +162,7 @@
 
             <li>
               <img
-                src="assets/github.svg"
+                src="/assets/images/github.svg"
                 alt="Github Page"
               />
 
@@ -174,5 +184,93 @@
     </main>
 
     <footer>Copyright@ Andres Young 2026</footer>
+    <!-- Tribute form popup -->
+
+<div id="tribute-modal" class="tribute-modal">
+
+  <div class="tribute-form-container">
+
+    <button
+      id="close-tribute-modal"
+      class="close-tribute-modal"
+      type="button"
+      aria-label="Close tribute form"
+    >
+      &times;
+    </button>
+
+    <h2 class="tribute-form-heading">
+      Leave Loving Words
+    </h2>
+
+    <p class="tribute-form-intro">
+      Share a memory or a few loving words in remembrance of
+      Edley Sylvester Gibbons.
+    </p>
+
+    <form
+      action="https://formspree.io/f/mykrpnqp"
+      method="POST"
+      class="tribute-form"
+    >
+
+      <div class="form-group">
+        <label for="tribute-name">
+          Full Name
+        </label>
+
+        <input
+          type="text"
+          id="tribute-name"
+          name="Full Name"
+          required
+        >
+      </div>
+
+
+      <div class="form-group">
+        <label for="tribute-email">
+          Email
+        </label>
+
+        <input
+          type="email"
+          id="tribute-email"
+          name="Email"
+          required
+        >
+      </div>
+
+
+      <div class="form-group">
+        <label for="tribute-reason">
+          Your Loving Words
+        </label>
+
+        <textarea
+          id="tribute-reason"
+          name="Tribute"
+          rows="6"
+          placeholder="Share a memory, story or loving words..."
+          required
+        ></textarea>
+      </div>
+
+
+      <button
+        type="submit"
+        class="submit-tribute-btn"
+      >
+        Send Tribute
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
   </body>
+<div id="loader-screen" class="loader-screen">
+  <div class="loader"></div>
+</div>
 </html>
