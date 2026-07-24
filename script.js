@@ -60,6 +60,60 @@ document.addEventListener("keydown", function (event) {
 
 });
 
+// Gallery lightbox
+
+const galleryButtons = document.querySelectorAll(".gallery-image-btn");
+const galleryLightbox = document.querySelector("#gallery-lightbox");
+const lightboxImage = document.querySelector("#lightbox-image");
+const lightboxCaption = document.querySelector("#lightbox-caption");
+const lightboxClose = document.querySelector("#lightbox-close");
+
+function openGalleryImage(button) {
+  const imageSource = button.dataset.image;
+  const imageCaption = button.dataset.caption;
+
+  lightboxImage.src = imageSource;
+  lightboxImage.alt = imageCaption;
+  lightboxCaption.textContent = imageCaption;
+
+  galleryLightbox.classList.add("is-open");
+  galleryLightbox.setAttribute("aria-hidden", "false");
+  document.body.classList.add("lightbox-open");
+
+  lightboxClose.focus();
+}
+
+function closeGalleryImage() {
+  galleryLightbox.classList.remove("is-open");
+  galleryLightbox.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("lightbox-open");
+
+  lightboxImage.src = "";
+}
+
+galleryButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    openGalleryImage(button);
+  });
+});
+
+lightboxClose.addEventListener("click", closeGalleryImage);
+
+galleryLightbox.addEventListener("click", (event) => {
+  if (event.target === galleryLightbox) {
+    closeGalleryImage();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (
+    event.key === "Escape" &&
+    galleryLightbox.classList.contains("is-open")
+  ) {
+    closeGalleryImage();
+  }
+});
+
 /* Rough CMS concept preserved for later implementation. */
 
 /*
