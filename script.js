@@ -1,120 +1,195 @@
 const loaderScreen = document.getElementById("loader-screen");
 
-window.addEventListener("load", function () {
+const tributeBtn = document.getElementById("tribute-btn");
+const tributeModal = document.getElementById("tribute-modal");
+const closeTributeModal = document.getElementById(
+  "close-tribute-modal",
+);
 
+const galleryGrid = document.getElementById("gallery-grid");
+
+const lightbox = document.getElementById("lightbox");
+const lightboxImage = document.getElementById("lightbox-image");
+const lightboxDownload = document.getElementById(
+  "lightbox-download",
+);
+const lightboxClose = document.getElementById("lightbox-close");
+
+/* Gallery images */
+
+const galleryImages = [
+  {
+    id: 1,
+    src: "assets/images/edley-gallery-1.jpg",
+    alt: "A treasured photograph of Edley",
+  },
+
+  {
+    id: 2,
+    src: "assets/images/edley-gallery-2.jpg",
+    alt: "Edley spending time with his family",
+  },
+
+  {
+    id: 3,
+    src: "assets/images/edley-gallery-3.jpg",
+    alt: "A happy memory of Edley",
+  },
+
+  {
+    id: 4,
+    src: "assets/images/edley-gallery-4.jpg",
+    alt: "Edley at a special family occasion",
+  },
+
+  {
+    id: 5,
+    src: "assets/images/edley-gallery-5.jpg",
+    alt: "Edley surrounded by loved ones",
+  },
+
+  {
+    id: 6,
+    src: "assets/images/edley-gallery-6.jpg",
+    alt: "A photograph remembering Edley",
+  },
+];
+
+/* Loader */
+
+window.addEventListener("load", function () {
   setTimeout(function () {
     loaderScreen.classList.add("loader-hidden");
   }, 2000);
-
 });
 
-const tributeBtn = document.getElementById("tribute-btn");
+/* Tribute popup */
 
-const tributeModal = document.getElementById("tribute-modal");
-
-const closeTributeModal = document.getElementById(
-  "close-tribute-modal"
-);
-
-
-/* Opens tribute popup */
-
-tributeBtn.addEventListener("click", function () {
-
+function openTributeModal() {
   tributeModal.classList.add("tribute-modal-open");
+  tributeModal.setAttribute("aria-hidden", "false");
 
-});
+  document.body.classList.add("no-scroll");
+}
 
-
-/* Closes tribute popup */
-
-closeTributeModal.addEventListener("click", function () {
-
+function closeTributeForm() {
   tributeModal.classList.remove("tribute-modal-open");
+  tributeModal.setAttribute("aria-hidden", "true");
 
-});
+  document.body.classList.remove("no-scroll");
+}
 
+tributeBtn.addEventListener("click", openTributeModal);
 
-/* Closes popup when background is clicked */
+closeTributeModal.addEventListener("click", closeTributeForm);
 
 tributeModal.addEventListener("click", function (event) {
-
   if (event.target === tributeModal) {
-
-    tributeModal.classList.remove("tribute-modal-open");
-
+    closeTributeForm();
   }
-
 });
 
+/* Render gallery */
 
-/* Closes popup when Escape key is pressed */
+function renderGallery() {
+  galleryGrid.innerHTML = "";
 
-document.addEventListener("keydown", function (event) {
+  galleryImages.forEach(function (image) {
+    galleryGrid.innerHTML += `
+      <button
+        class="gallery-photo"
+        type="button"
+        data-image="${image.src}"
+        aria-label="Open ${image.alt}"
+      >
+        <img
+          src="${image.src}"
+          alt="${image.alt}"
+          loading="lazy"
+        />
+      </button>
+    `;
+  });
+}
 
-  if (event.key === "Escape") {
+renderGallery();
 
-    tributeModal.classList.remove("tribute-modal-open");
+/* Open lightbox */
 
-  }
+function openLightbox(photo) {
+  const selectedImage = photo.querySelector("img");
+  const imagePath = photo.dataset.image;
+  const imageName = imagePath.split("/").pop();
 
-});
+  lightboxImage.src = imagePath;
+  lightboxImage.alt = selectedImage.alt;
 
-// Gallery lightbox
+  lightboxDownload.href = imagePath;
+  lightboxDownload.download = imageName;
 
-const galleryButtons = document.querySelectorAll(".gallery-image-btn");
-const galleryLightbox = document.querySelector("#gallery-lightbox");
-const lightboxImage = document.querySelector("#lightbox-image");
-const lightboxCaption = document.querySelector("#lightbox-caption");
-const lightboxClose = document.querySelector("#lightbox-close");
+  lightbox.classList.add("lightbox-open");
+  lightbox.setAttribute("aria-hidden", "false");
 
-function openGalleryImage(button) {
-  const imageSource = button.dataset.image;
-  const imageCaption = button.dataset.caption;
-
-  lightboxImage.src = imageSource;
-  lightboxImage.alt = imageCaption;
-  lightboxCaption.textContent = imageCaption;
-
-  galleryLightbox.classList.add("is-open");
-  galleryLightbox.setAttribute("aria-hidden", "false");
-  document.body.classList.add("lightbox-open");
+  document.body.classList.add("no-scroll");
 
   lightboxClose.focus();
 }
 
-function closeGalleryImage() {
-  galleryLightbox.classList.remove("is-open");
-  galleryLightbox.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("lightbox-open");
+/* Close lightbox */
+
+function closeLightbox() {
+  lightbox.classList.remove("lightbox-open");
+  lightbox.setAttribute("aria-hidden", "true");
 
   lightboxImage.src = "";
+  lightboxImage.alt = "";
+
+  lightboxDownload.href = "";
+  lightboxDownload.removeAttribute("download");
+
+  document.body.classList.remove("no-scroll");
 }
 
-galleryButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    openGalleryImage(button);
-  });
+/* Gallery click */
+
+galleryGrid.addEventListener("click", function (event) {
+  const clickedPhoto = event.target.closest(".gallery-photo");
+
+  if (!clickedPhoto) {
+    return;
+  }
+
+  openLightbox(clickedPhoto);
 });
 
-lightboxClose.addEventListener("click", closeGalleryImage);
+lightboxClose.addEventListener("click", closeLightbox);
 
-galleryLightbox.addEventListener("click", (event) => {
-  if (event.target === galleryLightbox) {
-    closeGalleryImage();
+lightbox.addEventListener("click", function (event) {
+  if (event.target === lightbox) {
+    closeLightbox();
   }
 });
 
-document.addEventListener("keydown", (event) => {
+/* Keyboard controls */
+
+document.addEventListener("keydown", function (event) {
   if (
     event.key === "Escape" &&
-    galleryLightbox.classList.contains("is-open")
+    lightbox.classList.contains("lightbox-open")
   ) {
-    closeGalleryImage();
+    closeLightbox();
+    return;
+  }
+
+  if (
+    event.key === "Escape" &&
+    tributeModal.classList.contains("tribute-modal-open")
+  ) {
+    closeTributeForm();
   }
 });
 
-/* Rough CMS concept preserved for later implementation. */
+/* Rough CMS concept preserved for later implementation */
 
 /*
 const trContainer = document.getElementById("tb-cards-container");
@@ -136,32 +211,4 @@ const tributes = [
     isApproved: false
   }
 ];
-
-
-
-button.addEventListener("click", approveTribute);
-
-function approveTribute() {
-    isApproved = True
-
-    trContainer.innerHTML = ""
-
-    tributes.forEach(tribute => {
-        if (isApproved === True) {
-        
-            trContainer.innerHTML += `
-                    <div class="tb-cards-container">    
-            <a href="#" class="tribute-card">
-                <h3 id="card-heading "class="card-heading">${tribute.title}</h3>
-                <p id="tribute-text" class="tribute-text">${tribute.paragraph}</p>
-                <p id="tributer" class="tributer">${tribute.signature}</p>
-            </a>
-          
-        </div>`
-    }
-    });
-    
-   
-}
-
 */
