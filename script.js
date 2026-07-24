@@ -20,39 +20,27 @@ const lightboxClose = document.getElementById("lightbox-close");
 const galleryImages = [
   {
     id: 1,
-    src: "assets/images/edley-gallery-1.jpg",
-    alt: "A treasured photograph of Edley",
+    src: "assets/images/gallery/grinch.png",
+    alt: "A treasured photograph of Edley with the grinch",
   },
 
   {
     id: 2,
-    src: "assets/images/edley-gallery-2.jpg",
-    alt: "Edley spending time with his family",
+    src: "assets/images/gallery/younger photo.png",
+    alt: "Edley as a young man.",
   },
 
   {
     id: 3,
-    src: "assets/images/edley-gallery-3.jpg",
-    alt: "A happy memory of Edley",
+    src: "assets/images/gallery/dadandgrandad.png",
+    alt: "A happy memory of Edley with his son Michael gibbons",
   },
 
   {
     id: 4,
-    src: "assets/images/edley-gallery-4.jpg",
-    alt: "Edley at a special family occasion",
-  },
-
-  {
-    id: 5,
-    src: "assets/images/edley-gallery-5.jpg",
-    alt: "Edley surrounded by loved ones",
-  },
-
-  {
-    id: 6,
-    src: "assets/images/edley-gallery-6.jpg",
-    alt: "A photograph remembering Edley",
-  },
+    src: "assets/images/gallery/thumbs up.png",
+    alt: "Edley putting his thumbs up in a photograph",
+  }
 ];
 
 /* Loader */
