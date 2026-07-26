@@ -10,7 +10,7 @@
 
     <meta
       name="description"
-      content="A website created for our family to leave a lasting memory of Edley Sylvester Gibbons."
+      content="A website created for our family to leave a lasting memory of Edley Sylvester Gibbons. You can view multiple photo and videos from his life."
     />
 
     <link rel="stylesheet" href="style.css" />
@@ -359,35 +359,43 @@
       </div>
     </div>
 
-    <div
-      id="lightbox"
-      class="lightbox"
-      aria-hidden="true"
-    >
-      <button
-        id="lightbox-close"
-        class="lightbox-close"
-        type="button"
-        aria-label="Close photograph"
-      >
-        &times;
-      </button>
+<div
+  id="lightbox"
+  class="lightbox"
+  aria-hidden="true"
+>
+  <button
+    id="lightbox-close"
+    class="lightbox-close"
+    type="button"
+    aria-label="Close gallery item"
+  >
+    &times;
+  </button>
 
-      <img
-        id="lightbox-image"
-        class="lightbox-image"
-        src=""
-        alt=""
-      />
+  <img
+    id="lightbox-image"
+    class="lightbox-image"
+    src=""
+    alt=""
+  />
 
-      <a
-        id="lightbox-download"
-        class="lightbox-download"
-        href=""
-        download
-      >
-        Download Photo
-      </a>
-    </div>
+  <video
+    id="lightbox-video"
+    class="lightbox-video"
+    controls
+    playsinline
+    preload="metadata"
+  ></video>
+
+  <a
+    id="lightbox-download"
+    class="lightbox-download"
+    href=""
+    download
+  >
+    Download
+  </a>
+</div>
   </body>
 </html>

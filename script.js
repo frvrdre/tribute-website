@@ -10,37 +10,57 @@ const galleryGrid = document.getElementById("gallery-grid");
 
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
+const lightboxVideo = document.getElementById("lightbox-video");
 const lightboxDownload = document.getElementById(
   "lightbox-download",
 );
 const lightboxClose = document.getElementById("lightbox-close");
 
-/* Gallery images */
+/* Gallery items */
 
-const galleryImages = [
+const galleryItems = [
   {
     id: 1,
+    type: "image",
     src: "assets/images/gallery/grinch.png",
-    alt: "A treasured photograph of Edley with the grinch",
+    alt: "A treasured photograph of Edley with the Grinch",
   },
 
   {
     id: 2,
+    type: "image",
     src: "assets/images/gallery/younger photo.png",
-    alt: "Edley as a young man.",
+    alt: "Edley as a young man",
   },
 
   {
     id: 3,
+    type: "image",
     src: "assets/images/gallery/dadandgrandad.png",
-    alt: "A happy memory of Edley with his son Michael gibbons",
+    alt: "Edley with his son Michael Gibbons",
   },
 
   {
     id: 4,
+    type: "image",
     src: "assets/images/gallery/thumbs up.png",
-    alt: "Edley putting his thumbs up in a photograph",
-  }
+    alt: "Edley giving a thumbs up",
+  },
+
+  {
+    id: 5,
+    type: "video",
+    src: "assets/images/videos/laytorest.mp4",
+    thumbnail: "assets/images/videos/laytorest.png",
+    alt: "A family video remembering Edley",
+  },
+    {
+    id: 6,
+    type: "video",
+    src: "assets/images/videos/walkout.mp4",
+    thumbnail: "assets/images/videos/walkout.png",
+    alt: "A family video remembering Edley",
+  },
 ];
 
 /* Loader */
@@ -82,17 +102,41 @@ tributeModal.addEventListener("click", function (event) {
 function renderGallery() {
   galleryGrid.innerHTML = "";
 
-  galleryImages.forEach(function (image) {
+  galleryItems.forEach(function (item) {
+    if (item.type === "video") {
+      galleryGrid.innerHTML += `
+        <button
+          class="gallery-photo gallery-video"
+          type="button"
+          data-id="${item.id}"
+          aria-label="Open ${item.alt}"
+        >
+          <video
+            src="${item.src}"
+            muted
+            playsinline
+            preload="metadata"
+          ></video>
+
+          <span class="video-play-icon" aria-hidden="true">
+            ▶
+          </span>
+        </button>
+      `;
+
+      return;
+    }
+
     galleryGrid.innerHTML += `
       <button
         class="gallery-photo"
         type="button"
-        data-image="${image.src}"
-        aria-label="Open ${image.alt}"
+        data-id="${item.id}"
+        aria-label="Open ${item.alt}"
       >
         <img
-          src="${image.src}"
-          alt="${image.alt}"
+          src="${item.src}"
+          alt="${item.alt}"
           loading="lazy"
         />
       </button>
@@ -104,16 +148,34 @@ renderGallery();
 
 /* Open lightbox */
 
-function openLightbox(photo) {
-  const selectedImage = photo.querySelector("img");
-  const imagePath = photo.dataset.image;
-  const imageName = imagePath.split("/").pop();
+function openLightbox(item) {
+  lightboxImage.style.display = "none";
+  lightboxVideo.style.display = "none";
 
-  lightboxImage.src = imagePath;
-  lightboxImage.alt = selectedImage.alt;
+  lightboxImage.src = "";
+  lightboxImage.alt = "";
 
-  lightboxDownload.href = imagePath;
-  lightboxDownload.download = imageName;
+  lightboxVideo.pause();
+  lightboxVideo.removeAttribute("src");
+  lightboxVideo.load();
+
+  if (item.type === "video") {
+    lightboxVideo.src = item.src;
+    lightboxVideo.style.display = "block";
+
+    lightboxDownload.textContent = "Download Video";
+  } else {
+    lightboxImage.src = item.src;
+    lightboxImage.alt = item.alt;
+    lightboxImage.style.display = "block";
+
+    lightboxDownload.textContent = "Download Photo";
+  }
+
+  const fileName = item.src.split("/").pop();
+
+  lightboxDownload.href = item.src;
+  lightboxDownload.download = fileName;
 
   lightbox.classList.add("lightbox-open");
   lightbox.setAttribute("aria-hidden", "false");
@@ -129,25 +191,40 @@ function closeLightbox() {
   lightbox.classList.remove("lightbox-open");
   lightbox.setAttribute("aria-hidden", "true");
 
+  lightboxVideo.pause();
+  lightboxVideo.removeAttribute("src");
+  lightboxVideo.load();
+
   lightboxImage.src = "";
   lightboxImage.alt = "";
 
   lightboxDownload.href = "";
   lightboxDownload.removeAttribute("download");
+  lightboxDownload.textContent = "Download";
 
   document.body.classList.remove("no-scroll");
 }
 
-/* Gallery click */
+/* Gallery clicks */
 
 galleryGrid.addEventListener("click", function (event) {
-  const clickedPhoto = event.target.closest(".gallery-photo");
+  const clickedItem = event.target.closest(".gallery-photo");
 
-  if (!clickedPhoto) {
+  if (!clickedItem) {
     return;
   }
 
-  openLightbox(clickedPhoto);
+  const selectedId = Number(clickedItem.dataset.id);
+
+  const selectedItem = galleryItems.find(function (item) {
+    return item.id === selectedId;
+  });
+
+  if (!selectedItem) {
+    return;
+  }
+
+  openLightbox(selectedItem);
 });
 
 lightboxClose.addEventListener("click", closeLightbox);
@@ -198,5 +275,5 @@ const tributes = [
     signature: "Your Family",
     isApproved: false
   }
-];
+]; .
 */
