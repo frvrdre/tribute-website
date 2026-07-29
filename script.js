@@ -51,14 +51,16 @@ const galleryItems = [
     id: 5,
     type: "video",
     src: "assets/images/videos/laytorest.mp4",
-    thumbnail: "assets/images/videos/laytorest.png",
+    preload: "metadata",
+    poster: "assets/images/videos/laytorest.webp",
     alt: "A family video remembering Edley",
   },
-    {
+  {
     id: 6,
     type: "video",
     src: "assets/images/videos/walkout.mp4",
-    thumbnail: "assets/images/videos/walkout.png",
+    preload: "metadata",
+    poster: "assets/images/videos/walkout.webp",
     alt: "A family video remembering Edley",
   },
 ];
